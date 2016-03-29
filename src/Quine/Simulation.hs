@@ -60,7 +60,7 @@ simulationBurstRate = 60
 data Simulation a = Simulation
   { _simulationStart        :: !Time    -- environment?
   , _simulationTime         :: !Time
-  , _simulationFrameCounter :: !Counter -- as well?
+  -- , _simulationFrameCounter :: !Counter -- as well? -- needs EKG
   , _simulationOld          :: !(Ref a)
   , _simulationState        :: !(Ref a)
   , _simulationMeter        :: !Meter
@@ -80,13 +80,12 @@ instance (Simulated a, Simulated b) => Simulated (a, b) where
   newState (ao,bo) (ac,bc) = liftM2 (,) (newState ao ac) (newState bo bc)
   deleteState (ao,bo)      = deleteState ao >> deleteState bo
 
-createSimulation :: Simulated a => Monitor -> a -> a -> IO (Simulation a)
-createSimulation ekg a b = do
+createSimulation :: Simulated a => a -> a -> IO (Simulation a)
+createSimulation a b = do
   s  <- now
-  ff <- counter "physics.frame" ekg
   ra <- newRef (deleteState a) a
   rb <- newRef (deleteState b) b
-  return $ Simulation s s ff ra rb def
+  return $ Simulation s s ra rb def
 
 -- run up to a burst worth of simulation frames w/ interleaved polling
 simulate :: (MonadIO m, MonadState s m, HasSimulation s a, Simulated a) => m () -> m (Double, Time)
@@ -94,10 +93,10 @@ simulate poll = go simulationBurstRate
  where
   go b = do
     poll -- run this between physics frames
-    t <- now 
-    Simulation t0 tn ff ro rc m <- use simulation 
+    t <- now
+    Simulation t0 tn ff ro rc m <- use simulation
     let tn' = tn + simulationSPF
-    if b > 0 && tn' <= t 
+    if b > 0 && tn' <= t
       then do
         rn <- newState (extract ro) (extract rc) >>= \n -> newRef (deleteState n) n
         releaseRef ro

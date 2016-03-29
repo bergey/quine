@@ -17,14 +17,12 @@ module Quine.Env
   ) where
 
 import Control.Lens
-import Quine.Monitor
 import Quine.Options
 
 -- * Environment
 
 data Env = Env
-  { _envMonitor   :: Monitor
-  , _envOptions   :: Options
+  { _envOptions   :: Options
   , _frameCounter :: Counter
   , _widthGauge   :: Gauge
   , _heightGauge  :: Gauge
@@ -32,15 +30,11 @@ data Env = Env
 
 makeLenses ''Env
 
-instance HasMonitor Env where
-  monitor = envMonitor
-
 instance HasOptions Env where
   options = envOptions
 
-class (HasMonitor t, HasOptions t) => HasEnv t where
+class HasOptions t => HasEnv t where
   env :: Lens' t Env
 
 instance HasEnv Env where
   env = id
-

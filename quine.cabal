@@ -132,7 +132,7 @@ library
     data-default,
     directory,
     distributive,
-    ekg,
+    -- ekg,
     file-embed,
     filepath,
     fingertree,

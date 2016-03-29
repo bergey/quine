@@ -33,7 +33,7 @@ import Foreign
 import Foreign.C
 import GHC.Conc
 import Graphics.GL.Core41
-import SDL.Raw
+-- import SDL.Raw
 import Linear
 import Numeric (showFFloat)
 import Options.Applicative
@@ -56,7 +56,7 @@ import Quine.Input
 import Quine.Meter
 import Quine.Monitor
 import Quine.Options
-import Quine.SDL as SDL
+-- import Quine.SDL as SDL
 import Quine.Simulation
 import Quine.System
 import System.Exit
@@ -83,11 +83,6 @@ main = runInBoundThread $ withCString "quine" $ \windowName -> do
       hFlush stderr
       exitFailure
 
-  -- set up EKG
-  ekg <- forkMonitor opts
-
-  label "sdl.version" ekg >>= ($= show SDL.version)
- 
   -- start SDL
   init SDL_INIT_EVERYTHING >>= err
   contextMajorVersion $= 3
@@ -115,20 +110,11 @@ main = runInBoundThread $ withCString "quine" $ \windowName -> do
 
   when (opts^.optionsDebug) installDebugHook
 
-  label "gl.vendor" ekg           >>= ($= vendor)
-  label "gl.renderer" ekg         >>= ($= renderer)
-  label "gl.version" ekg          >>= ($= show GL.version)
-  label "gl.shading.version" ekg  >>= ($= show shadingLanguageVersion)
-  label "gl.shading.versions" ekg >>= ($= show shadingLanguageVersions)
-  
   -- glEnable gl_FRAMEBUFFER_SRGB
 
   throwErrors
-  fc <- counter "quine.frame" ekg
-  vw <- gauge "viewport.width" ekg
-  vh <- gauge "viewport.height" ekg
-  let sys = Env ekg opts fc vw vh
-      dsp = Display 
+  let sys = Env opts fc vw vh
+      dsp = Display
         { _displayWindow            = window
         , _displayGL                = cxt
         , _displayFullScreen        = opts^.optionsFullScreen
@@ -141,7 +127,7 @@ main = runInBoundThread $ withCString "quine" $ \windowName -> do
         , _displayMeter             = def
         }
   relativeMouseMode $= True -- switch to relative mouse mouse initially
-  sim <- createSimulation ekg () ()
+  sim <- createSimulation () ()
   handling id print (runReaderT (evalStateT core $ System dsp def def sim) sys) `finally` do
     glDeleteContext cxt
     destroyWindow window
@@ -169,20 +155,20 @@ core = do
   throwErrors
   currentProgram   $= scn
   boundVertexArray $= emptyVAO
-  forever $ do 
+  forever $ do
     (alpha,t) <- simulate $ poll $ \e -> handleDisplayEvent e >> handleInputEvent e
     displayMeter %= tick t
-    
-    displayFPS <- uses displayMeter fps 
+
+    displayFPS <- uses displayMeter fps
     physicsFPS <- uses simulationMeter fps
-    let title = showString "quine (display " 
+    let title = showString "quine (display "
             $ showFFloat (Just 1) displayFPS
             $ showString " fps, physics "
             $ showFFloat (Just 1) physicsFPS ")"
     use displayWindow >>= liftIO . withCString title . setWindowTitle
 
     updateCamera
-    resizeDisplay 
+    resizeDisplay
     render $ do
       (w,h) <- use displayWindowSize
       let wf = fromIntegral w
