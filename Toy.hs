@@ -69,11 +69,7 @@ import System.IO
 
 main :: IO ()
 main = runInBoundThread $ withCString "quine" $ \windowName -> do
-  -- parse options
-  opts <- execParser $ info (helper <*> parseOptions) $
-    fullDesc
-    <> progDesc "quine"
-    <> header "Quine"
+  let opts = def
 
   -- be careful with exceptions
   setUncaughtExceptionHandler $ \ e -> if
