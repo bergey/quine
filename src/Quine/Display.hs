@@ -10,7 +10,7 @@
 -- Portability: non-portable
 --
 --------------------------------------------------------------------
-module Quine.Display 
+module Quine.Display
   ( Display(..)
   , HasDisplay(..)
   , warn
@@ -37,10 +37,10 @@ import System.IO
 import Graphics.GL.Core41
 
 -- | Basic OpenGL + SDL display that provides the screen and various bits of metadata about the act of displaying data
-data Display = Display 
-  { _displayWindow            :: !Window
-  , _displayGL                :: !GLContext
-  , _displayFullScreen        :: !Bool
+data Display = Display
+  { _displayWindow            :: !HTMLCanvasElement
+  , _displayGL                :: !WebGL2RenderingContext
+  -- , _displayFullScreen        :: !Bool
   , _displayWindowSize        :: (Int, Int)
   , _displayWindowSizeChanged :: !Bool
   , _displayMinimized         :: !Bool
@@ -56,7 +56,7 @@ makeClassy ''Display
 warn :: (MonadIO m, MonadState s m, HasDisplay s) => String -> String -> m ()
 warn t m = do
   window <- use displayWindow
-  liftIO $ do 
+  liftIO $ do
     hPutStrLn stderr $ "Warning: " ++ t ++ ": " ++ m
     withCString t $ \title -> withCString m $ \message ->
       showSimpleMessageBox SDL_MESSAGEBOX_WARNING title message window >>= err
@@ -132,7 +132,7 @@ handleDisplayEvent KeyboardEvent{eventType = SDL_KEYDOWN, keyboardEventKeysym=Ke
     fs <- displayFullScreen <%= not
     fsn <- view optionsFullScreenNormal
     w  <- use displayWindow
-    _ <- setWindowFullscreen w $ if 
+    _ <- setWindowFullscreen w $ if
       | not fs    -> 0
       | fsn       -> SDL_WINDOW_FULLSCREEN
       | otherwise -> SDL_WINDOW_FULLSCREEN_DESKTOP

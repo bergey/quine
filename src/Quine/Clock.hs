@@ -18,16 +18,12 @@ import Control.Monad.IO.Class
 #if ! MIN_VERSION_base(4,8,0)
 import Data.Functor
 #endif
-import SDL.Raw.Timer
-import System.IO.Unsafe
 
 type Time      = Double
 type DeltaTime = Double
 
-granularity :: Double
-granularity = unsafePerformIO (recip . fromIntegral <$> getPerformanceFrequency)
-{-# NOINLINE granularity #-}
+foreign import javascript unsafe "$r = Date.now();" js_now :: IO Time
 
 -- | A simple monotonic system clock in seconds with undefined origin
 now :: MonadIO m => m Time
-now = liftIO $ (granularity *) . fromIntegral <$> getPerformanceCounter
+now = liftIO js_now

@@ -79,39 +79,29 @@ main = runInBoundThread $ withCString "quine" $ \windowName -> do
       hFlush stderr
       exitFailure
 
-  -- start SDL
-  init SDL_INIT_EVERYTHING >>= err
-  contextMajorVersion $= 3
-  contextMinorVersion $= 3
-  contextProfileMask  $= SDL_GL_CONTEXT_PROFILE_CORE
-  redSize   $= 5
-  greenSize $= 5
-  blueSize  $= 5
-  depthSize $= 16
-  doubleBuffer $= True
-  let w = opts^.optionsWindowWidth
-      h = opts^.optionsWindowHeight
-      flags = SDL_WINDOW_OPENGL
-          .|. SDL_WINDOW_SHOWN
-          .|. SDL_WINDOW_RESIZABLE
-          .|. (if opts^.optionsHighDPI then SDL_WINDOW_ALLOW_HIGHDPI else 0)
-          .|. (if | not (opts^.optionsFullScreen) -> 0
-                  | opts^.optionsFullScreenNormal -> SDL_WINDOW_FULLSCREEN
-                  | otherwise                     -> SDL_WINDOW_FULLSCREEN_DESKTOP)
-  window <- createWindow windowName SDL_WINDOWPOS_CENTERED SDL_WINDOWPOS_CENTERED (fromIntegral w) (fromIntegral h) flags >>= errOnNull
+  -- setup HTML
+  Just doc <- currentDocument
+  Just body <- getBody doc
+  setInnerHTML body . Just $
+    "<canvas id=\"canvas\" width=\"800\" height=\"450\" style=\"border: 1px solid\"></canvas>"
 
-  -- start OpenGL
-  cxt <- glCreateContext window >>= errOnNull
-  makeCurrent window cxt
+  -- get canvas context
+  Just canvas' <- getElementById doc name
+  let canvas = coerce canvas'
+  cxt <- coerce <$> getContext canvas "webgl"
+  -- TODO error handling
+  w <- getWidth canvas
+  h <- getHeight canvas
+  viewport cxt 0 0 (fromIntegral w) (fromIntegral h)
+  -- XXX is there a WebGL equivalent to glMakeCurrent?
+  -- makeCurrent window cxt
+  -- XXX WebGL debugging
+  -- when (opts^.optionsDebug) installDebugHook
 
-  when (opts^.optionsDebug) installDebugHook
-
-  -- glEnable gl_FRAMEBUFFER_SRGB
-
-  throwErrors
-  let sys = Env opts fc vw vh
+  -- throwErrors -- XXX
+  let env = Env opts fc vw vh
       dsp = Display
-        { _displayWindow            = window
+        { _displayWindow            = canvas
         , _displayGL                = cxt
         , _displayFullScreen        = opts^.optionsFullScreen
         , _displayWindowSize        = (fromIntegral w, fromIntegral h)
@@ -122,24 +112,23 @@ main = runInBoundThread $ withCString "quine" $ \windowName -> do
         , _displayVisible           = True
         , _displayMeter             = def
         }
-  relativeMouseMode $= True -- switch to relative mouse mouse initially
+  -- XXX
+  -- relativeMouseMode $= True -- switch to relative mouse mouse initially
   sim <- createSimulation () ()
-  handling id print (runReaderT (evalStateT core $ System dsp def def sim) sys) `finally` do
-    glDeleteContext cxt
-    destroyWindow window
-    quit
-    exitSuccess
+  handling id print (runReaderT (evalStateT core $ System dsp def def sim) env) `finally` exitSuccess
 
 translate :: Vec3 -> Mat4
 translate v = identity & translation .~ v
 
 core :: (MonadIO m, MonadState s m, HasSystem s (), MonadReader e m, HasEnv e, HasOptions e) => m a
 core = do
-  liftIO (getDir "shaders") >>= \ ss -> buildNamedStrings ss ("/shaders"</>)
+  buildNamedStrings $(embedDir "shaders") ('/':)
   screenShader <- compile ["/shaders"] GL_VERTEX_SHADER   "shaders/screen.vert"
   sceneShader  <- compile ["/shaders"] GL_FRAGMENT_SHADER =<< view optionsFragment
   scn <- link [screenShader,sceneShader]
-  emptyVAO <- gen
+  -- XXX check if OES_vertex_array_object extension is available?
+  -- http://blog.tojicode.com/2012/10/oesvertexarrayobject-extension.html
+  -- emptyVAO <- gen
   iResolution        <- programUniform2f scn `liftM` uniformLocation scn "iResolution"
   iGlobalTime        <- (mapStateVar realToFrac realToFrac . programUniform1f scn) `liftM` uniformLocation scn "iGlobalTime"
   iPhysicsAlpha      <- (mapStateVar realToFrac realToFrac . programUniform1f scn) `liftM` uniformLocation scn "iPhysicsAlpha"

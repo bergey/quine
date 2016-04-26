@@ -94,13 +94,12 @@ simulate poll = go simulationBurstRate
   go b = do
     poll -- run this between physics frames
     t <- now
-    Simulation t0 tn ff ro rc m <- use simulation
+    Simulation t0 tn ro rc m <- use simulation
     let tn' = tn + simulationSPF
     if b > 0 && tn' <= t
       then do
         rn <- newState (extract ro) (extract rc) >>= \n -> newRef (deleteState n) n
         releaseRef ro
-        inc ff
-        simulation .= Simulation t0 tn' ff rc rn (tick tn' m)
+        simulation .= Simulation t0 tn' rc rn (tick tn' m)
         go $! b - 1
       else return $ ((t-tn) * simulationFPS, t - t0)
