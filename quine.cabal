@@ -107,7 +107,6 @@ library
     Quine.Math
     Quine.Meter
     Quine.MipmapChain
-    Quine.Monitor
     Quine.Options
     Quine.Queue
     Quine.Ref

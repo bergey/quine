@@ -54,7 +54,6 @@ import Quine.GL.Version as GL
 import Quine.GL.VertexArray
 import Quine.Input
 import Quine.Meter
-import Quine.Monitor
 import Quine.Options
 import Quine.Simulation
 import Quine.System

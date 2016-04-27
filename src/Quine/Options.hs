@@ -19,7 +19,6 @@ import Control.Applicative
 import Control.Lens
 import Data.Default
 import Prelude hiding (init)
-import Quine.Monitor
 
 data Options = Options
   { _optionsMonitorOptions   :: MonitorOptions

@@ -43,7 +43,6 @@ import Data.Foldable
 #endif
 import Quine.Clock
 import Quine.Meter
-import Quine.Monitor
 import Quine.Ref
 
 -- | # of fps
