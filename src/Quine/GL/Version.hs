@@ -30,6 +30,7 @@ import Foreign.Marshal.Alloc
 import Foreign.Ptr
 import Foreign.Storable
 import           GHCJS.DOM.WebGLRenderingContextBase
+import           GHCJS.DOM.Types
 import System.IO.Unsafe
 import Text.ParserCombinators.ReadP
 

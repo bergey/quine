@@ -36,6 +36,7 @@ import Foreign.Ptr
 import Foreign.Storable
 import GHC.Generics
 import           GHCJS.DOM.WebGLRenderingContextBase
+import           GHCJS.DOM.Types
 
 type PrimitiveMode = GLenum
 type IndexType = GLenum

@@ -16,6 +16,7 @@ import Control.Monad.IO.Class
 import Foreign.C.String
 import Foreign.Ptr
 import           GHCJS.DOM.WebGLRenderingContextBase
+import           GHCJS.DOM.Types
 import Text.Printf
 
 -- | This will install a synchronous debugging hook to allow OpenGL to notify us if we're doing anything deprecated, non-portable, undefined, etc.

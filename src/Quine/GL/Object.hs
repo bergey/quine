@@ -20,6 +20,7 @@ import Control.Monad.IO.Class
 import Data.Functor
 #endif
 import           GHCJS.DOM.WebGLRenderingContextBase
+import           GHCJS.DOM.Types
 
 class Object a where
   {-# MINIMAL object, isa, (delete | deletes) #-}
