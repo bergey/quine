@@ -33,7 +33,6 @@ import Foreign
 import Foreign.C
 import GHC.Conc
 import Graphics.GL.Core41
-import SDL.Raw
 import Linear
 import Numeric (showFFloat)
 import Options.Applicative

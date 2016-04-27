@@ -9,7 +9,7 @@
 -- Portability: non-portable
 --
 -- Do we need to hook window entry to get a better state summary of the mouse buttons to avoid the common 'sticky mouse' problems in games?
--- 
+--
 -- Should losing focus kill the mouse button states?
 --------------------------------------------------------------------
 module Quine.Input
@@ -25,7 +25,6 @@ import Data.Default
 import Data.Int
 import Data.Set
 import Data.Word
-import SDL.Raw
 import Linear
 
 data Input = Input
@@ -42,10 +41,10 @@ makeClassy ''Input
 
 instance Default Input where
   def = Input def def def 0 0 0 0
-  
+
 handleInputEvent :: (MonadState s m, HasInput s) => Event -> m ()
 handleInputEvent (KeyboardEvent SDL_KEYDOWN _ _ _ _ (Keysym sc kc _)) = do
-  keyCodes.contains kc .= True 
+  keyCodes.contains kc .= True
   scanCodes.contains sc .= True
 handleInputEvent (KeyboardEvent SDL_KEYUP _ _ _ _ (Keysym sc kc _)) = do
   keyCodes.contains kc  .= False
@@ -65,4 +64,3 @@ handleInputEvent (MouseButtonEvent SDL_MOUSEBUTTONUP _ _ mouse button _ _ x y) |
 handleInputEvent (MouseWheelEvent SDL_MOUSEWHEEL _ _ mouse x y) | mouse /= SDL_TOUCH_MOUSEID =
   mouseWheel += V2 x y
 handleInputEvent _ = return ()
-
