@@ -35,8 +35,7 @@ import Data.Word
 import Foreign.Ptr
 import Foreign.Storable
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 
 type PrimitiveMode = GLenum
 type IndexType = GLenum
@@ -64,7 +63,7 @@ instance Storable DrawArraysIndirectCommand where
 --
 -- [PrimitiveMode] one of the 3.3+ supported modes
 --
--- [Offset]   an offset pointer into the currently bound 'DrawIndirectBuffer' (in machine units)  
+-- [Offset]   an offset pointer into the currently bound 'DrawIndirectBuffer' (in machine units)
 --
 drawArrayIndirect :: MonadIO m => PrimitiveMode -> Ptr DrawArraysIndirectCommand -> m ()
 drawArrayIndirect mode = liftIO . glDrawArraysIndirect mode . castPtr
@@ -94,9 +93,8 @@ instance Storable DrawElementsIndirectCommand where
 -- [IndexType]
 --    The type of the indices of the currently bound 'ElementArrayBuffer' ('GL_UNSIGNED_BYTE', 'GL_UNSIGNED_SHORT', 'GL_UNSIGNED_INT')
 --
--- [Offset]     
---    an offset pointer into the currently bound 'DrawIndirectBuffer' (in machine units)  
+-- [Offset]
+--    an offset pointer into the currently bound 'DrawIndirectBuffer' (in machine units)
 --
 drawElementsIndirect :: MonadIO m => PrimitiveMode -> IndexType -> Ptr DrawElementsIndirectCommand -> m ()
 drawElementsIndirect mode ty = liftIO . glDrawElementsIndirect mode ty . castPtr
-

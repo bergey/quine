@@ -53,8 +53,7 @@ import Foreign.Storable
 import Foreign.Ptr
 import Data.StateVar
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Quine.GL.Object
 import Quine.GL.Texture (TextureUnit)
 
@@ -144,4 +143,3 @@ samplerParameterIuiv :: Dim n => Sampler -> SamplerParameter -> StateVar (V n Wo
 samplerParameterIuiv sampler p = StateVar g s where
   g = alloca $ (>>) <$> glGetSamplerParameterIuiv (coerce sampler) p . castPtr <*> peek
   s v = alloca $ (>>) <$> glSamplerParameterIuiv (coerce sampler) p . castPtr <*> (`poke` v)
-

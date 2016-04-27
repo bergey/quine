@@ -15,9 +15,7 @@ module Quine.Debug
 import Control.Monad.IO.Class
 import Foreign.C.String
 import Foreign.Ptr
-import Graphics.GL.Core33
-import Graphics.GL.Ext.KHR.Debug
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Text.Printf
 
 -- | This will install a synchronous debugging hook to allow OpenGL to notify us if we're doing anything deprecated, non-portable, undefined, etc.

@@ -33,8 +33,7 @@ import Data.Foldable
 import Data.Traversable
 #endif
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Quine.Image
 
 -- | Faces in OpenGL order
@@ -62,8 +61,7 @@ instance (ImageFormat a, Image2D (Image a)) => Image2D (Cubemap (Image a)) where
     upload cube t 0
 
 glFaceTargets :: GLFaceTargets
-glFaceTargets = Cubemap 
+glFaceTargets = Cubemap
   GL_TEXTURE_CUBE_MAP_POSITIVE_X GL_TEXTURE_CUBE_MAP_NEGATIVE_X
   GL_TEXTURE_CUBE_MAP_POSITIVE_Y GL_TEXTURE_CUBE_MAP_NEGATIVE_X
   GL_TEXTURE_CUBE_MAP_POSITIVE_Z GL_TEXTURE_CUBE_MAP_NEGATIVE_X
-

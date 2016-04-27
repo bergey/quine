@@ -29,8 +29,7 @@ import Foreign.C.String
 import Foreign.Marshal.Alloc
 import Foreign.Ptr
 import Foreign.Storable
-import Graphics.GL.Core43
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import System.IO.Unsafe
 import Text.ParserCombinators.ReadP
 
@@ -85,7 +84,7 @@ shadingLanguageVersion = Version [] [] `fromMaybe` parse shadingLanguageVersionS
 
 -- | Returns a set of shading language versions supported by this implementation.
 shadingLanguageVersions :: Set Version
-shadingLanguageVersions 
+shadingLanguageVersions
   | version >= Version [4,3] [] = unsafePerformIO $ do
     n <- alloca $ \p -> do
       poke p 0 -- unsupported until 4.2, so scribble a 0 in first

@@ -30,9 +30,7 @@ import Control.Monad
 import Control.Monad.IO.Class
 import Data.Data
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Ext.ARB.Imaging
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 
 -- | Used to represent the result of 'glGetError'
 newtype Error = Error GLenum deriving (Eq, Typeable, Data, Generic)

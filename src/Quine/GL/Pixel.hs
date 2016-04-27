@@ -18,10 +18,7 @@ module Quine.GL.Pixel
   ) where
 
 import Data.Bits
-import Graphics.GL.Standard21
-import Graphics.GL.Core45
-import Graphics.GL.Ext
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 
 type InternalFormat = GLenum
 type PixelFormat = GLenum
@@ -96,9 +93,9 @@ typeSize GL_UNSIGNED_SHORT_5_5_5_1_EXT     = 2
 typeSize GL_UNSIGNED_SHORT_5_6_5           = 2
 typeSize GL_UNSIGNED_SHORT_5_6_5_REV       = 2
 typeSize GL_UNSIGNED_SHORT_8_8_APPLE       = 2
-typeSize GL_UNSIGNED_SHORT_8_8_MESA        = 2 
+typeSize GL_UNSIGNED_SHORT_8_8_MESA        = 2
 typeSize GL_UNSIGNED_SHORT_8_8_REV_APPLE   = 2
-typeSize GL_UNSIGNED_SHORT_8_8_REV_MESA    = 2 
+typeSize GL_UNSIGNED_SHORT_8_8_REV_MESA    = 2
 typeSize GL_BITMAP                         = 0 -- unsuppored
 typeSize _ = 0
 

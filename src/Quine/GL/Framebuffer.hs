@@ -11,9 +11,9 @@
 -- Stability :  experimental
 -- Portability: non-portable
 --
--- So called RenderTargets or used for "Render to Texture". 
+-- So called RenderTargets or used for "Render to Texture".
 -- Memory to render into, usable as a texture or to read
--- otherwise from it. 
+-- otherwise from it.
 --------------------------------------------------------------------
 module Quine.GL.Framebuffer
   ( Framebuffer
@@ -48,8 +48,7 @@ import Foreign.Marshal.Array
 import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Quine.GL.Object
 import Quine.GL.Renderbuffer
 import Quine.GL.Texture
@@ -121,7 +120,7 @@ framebufferTexture (FramebufferTarget t _) slot tex = liftIO . glFramebufferText
 framebufferTextureLayer :: MonadIO m => FramebufferTarget -> FramebufferAttachmentPoint -> Texture -> MipmapLevel -> TextureLayer -> m ()
 framebufferTextureLayer (FramebufferTarget t _) slot tex level = liftIO . glFramebufferTextureLayer t slot (object tex) level
 
-framebufferRenderbuffer :: MonadIO m => FramebufferTarget -> FramebufferAttachmentPoint -> Renderbuffer a -> m () 
+framebufferRenderbuffer :: MonadIO m => FramebufferTarget -> FramebufferAttachmentPoint -> Renderbuffer a -> m ()
 framebufferRenderbuffer (FramebufferTarget t _) slot = liftIO . glFramebufferRenderbuffer t slot GL_RENDERBUFFER . object
 
 checkFramebufferStatus :: MonadIO m => FramebufferTarget -> m (Maybe FramebufferError)

@@ -12,7 +12,7 @@
 -- Transcoding between @JuicyPixels@ and @gl@
 --------------------------------------------------------------------
 module Quine.Image
-  ( 
+  (
   -- * Uploading to OpenGL
     Image2D(upload,store)
   -- * Downloading from OpenGL
@@ -32,10 +32,7 @@ import Data.Word
 import Foreign.ForeignPtr
 import Foreign.Marshal.Array
 import Foreign.Ptr
-import Graphics.GL.Core41
-import Graphics.GL.Ext.ARB.TextureStorage
-import Quine.GL.Pixel
-import Quine.GL.Texture
+import           GHCJS.DOM.WebGLRenderingContextBase
 
 -- * 2D Image formats
 

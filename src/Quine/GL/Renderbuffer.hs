@@ -10,9 +10,9 @@
 -- Stability :  experimental
 -- Portability: non-portable
 --
--- So called RenderTargets or used for "Render to Texture". 
+-- So called RenderTargets or used for "Render to Texture".
 -- Memory to render into, usable as a texture or to read
--- otherwise from it. 
+-- otherwise from it.
 --------------------------------------------------------------------
 module Quine.GL.Renderbuffer
   ( Renderbuffer
@@ -34,8 +34,7 @@ import Foreign.Marshal.Array
 import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Quine.GL.Object
 
 newtype Renderbuffer a = Renderbuffer GLuint deriving (Eq,Ord,Show,Read,Typeable,Data,Generic)
@@ -66,4 +65,3 @@ boundRenderbuffer (RenderbufferTargeting target binding) = StateVar g s where
 
 
 pattern RenderbufferTarget = RenderbufferTargeting GL_RENDERBUFFER GL_RENDERBUFFER_BINDING
-

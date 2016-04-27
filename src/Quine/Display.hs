@@ -32,7 +32,7 @@ import Quine.Exception
 import Quine.Meter
 import Quine.Options
 import System.IO
-import Graphics.GL.Core41
+import           GHCJS.DOM.WebGLRenderingContextBase
 
 -- | Basic OpenGL + SDL display that provides the screen and various bits of metadata about the act of displaying data
 data Display = Display

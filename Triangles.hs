@@ -39,7 +39,7 @@ import Foreign
 import Foreign.C
 import GHC.Conc
 import GHC.Generics
-import Graphics.GL.Core41
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Linear
 import Numeric (showFFloat)
 import Options.Applicative

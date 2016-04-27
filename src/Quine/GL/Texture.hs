@@ -60,8 +60,7 @@ import Foreign.Ptr
 import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Linear
 import Linear.V
 import Quine.GL.Object
@@ -167,4 +166,3 @@ activeTexture :: StateVar Word32
 activeTexture = StateVar g s where
   g = fmap fromIntegral $ alloca $ liftM2 (>>) (glGetIntegerv GL_ACTIVE_TEXTURE) peek
   s n = glActiveTexture (GL_TEXTURE0 + n)
-

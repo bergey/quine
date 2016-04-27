@@ -79,9 +79,7 @@ import Foreign.Ptr
 import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Ext.EXT.DirectStateAccess
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Quine.GL.Object
 
 -- | A 'Buffer' is the generic OpenGL storage object for multiple possible kind of data
@@ -118,7 +116,7 @@ instance Default (Buffer a) where
 class BufferData a where
   -- | perfom a monadic action with the pointer to the raw content and the number of elements
   withRawData :: MonadIO m => a -> (Ptr () -> IO b) -> m b
-  -- | reads 'a' from a pointer and the given size of a in bytes 
+  -- | reads 'a' from a pointer and the given size of a in bytes
   fromRawData :: MonadIO m => Int -> Ptr () -> m a
   -- | size of the complete data in bytes
   sizeOfData :: a -> Int

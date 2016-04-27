@@ -11,7 +11,7 @@
 -- Portability: non-portable
 --
 --------------------------------------------------------------------
-module Quine.GL.Program 
+module Quine.GL.Program
   ( Program(..)
   , attachShader
   , detachShader
@@ -59,8 +59,7 @@ import Foreign.Ptr
 import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Quine.GL.Object
 import Quine.GL.Shader
 
@@ -131,7 +130,7 @@ linkStatus p = (GL_FALSE /=) `liftM` get (programParameter1 p GL_LINK_STATUS)
 programSeparable :: Program -> StateVar Bool
 programSeparable p = mapStateVar toGLBool fromGLBool $ programParameter1 p GL_PROGRAM_SEPARABLE where
   toGLBool b = if b then GL_TRUE else GL_FALSE
-  fromGLBool b = if b == GL_TRUE then True else False 
+  fromGLBool b = if b == GL_TRUE then True else False
 
 -- * Validation
 
@@ -228,7 +227,7 @@ currentProgram = StateVar
 -- * Separable Program
 
 -- | @'createSeparableProgram' shaderType source paths@ emulates the missing OpenGL functionality to
--- create a separable 'Program' from source with 'glCreateShaderProgram' but 
+-- create a separable 'Program' from source with 'glCreateShaderProgram' but
 -- with 'GL_ARB_shading_language_include' support.
 createShaderProgramInclude :: MonadIO m => ShaderType -> Lazy.ByteString -> [FilePath] -> m Program
 createShaderProgramInclude shaderTy source paths = do
@@ -244,4 +243,3 @@ createShaderProgramInclude shaderTy source paths = do
     detachShader prog s
   delete s
   return prog
-

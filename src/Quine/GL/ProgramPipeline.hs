@@ -46,8 +46,7 @@ import Foreign.Ptr
 import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import qualified Data.ByteString as Strict
 import qualified Data.ByteString.Internal as Strict
 import Quine.GL.Object

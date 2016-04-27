@@ -29,7 +29,7 @@ import Prelude hiding (zipWith,tail,head,length,sequence_)
 import Codec.Picture
 import Data.Foldable (sequence_)
 import Data.List.NonEmpty
-import Graphics.GL.Ext.ARB.TextureStorage
+-- import Graphics.GL.Ext.ARB.TextureStorage  -- webgl equiv?
 import Quine.Image
 
 -- | The first element in the 'MipmapChain' is the base element

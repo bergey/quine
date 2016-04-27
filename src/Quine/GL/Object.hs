@@ -19,7 +19,7 @@ import Control.Monad.IO.Class
 #if ! MIN_VERSION_base(4,8,0)
 import Data.Functor
 #endif
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 
 class Object a where
   {-# MINIMAL object, isa, (delete | deletes) #-}

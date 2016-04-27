@@ -61,8 +61,7 @@ import Foreign.Marshal.Array
 import Foreign.Ptr
 import Foreign.Storable
 import Data.StateVar
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 import Linear
 import Quine.GL.Program
 import Quine.GL.Types

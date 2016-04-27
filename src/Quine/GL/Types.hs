@@ -8,7 +8,7 @@
 --
 --------------------------------------------------------------------
 module Quine.GL.Types
-  ( 
+  (
   -- * Vectors
     Vec2, Vec3, Vec4
   , BVec2, BVec3, BVec4
@@ -29,8 +29,7 @@ module Quine.GL.Types
 import Data.Int
 import Data.Word
 import Linear
-import Graphics.GL.Core45
-import Graphics.GL.Types
+import           GHCJS.DOM.WebGLRenderingContextBase
 
 type BVec2 = V2 Bool
 type BVec3 = V3 Bool
