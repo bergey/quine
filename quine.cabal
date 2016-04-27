@@ -111,7 +111,6 @@ library
     Quine.Options
     Quine.Queue
     Quine.Ref
-    Quine.SDL
     Quine.Simulation
     Quine.Supply
     Quine.System

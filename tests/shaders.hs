@@ -24,7 +24,6 @@ import SDL.Raw.Enum
 import Prelude
 import Quine.GL
 import Quine.GL.Shader
-import Quine.SDL
 import System.Exit
 import System.FilePath
 import System.IO

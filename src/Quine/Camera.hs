@@ -10,7 +10,7 @@
 -- Portability: non-portable
 --
 --------------------------------------------------------------------
-module Quine.Camera 
+module Quine.Camera
   ( Camera(..)
   , HasCamera(..)
   , updateCamera
@@ -27,7 +27,6 @@ import GHC.Generics
 import Linear
 import Quine.GL.Types
 import Quine.Input
-import Quine.SDL
 
 -- * Camera
 

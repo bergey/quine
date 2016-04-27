@@ -46,7 +46,6 @@ import Quine.GL.Error
 import Quine.GL.Framebuffer
 import Quine.GL.Object
 import Quine.GL.Texture
-import Quine.SDL
 import Test.Hspec
 
 --------------------------------------------------------------------------------
@@ -99,7 +98,7 @@ main = hspec $ around_ withGLContext $ do
         boundFramebuffer RWFramebuffer $= def
         checkFramebufferStatus RWFramebuffer `shouldReturn` Nothing
         throwErrors
-    
+
     -- it's 'GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT' and not 'GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT​' because
     -- there are no attachemnts to check for attachment completeness
     it "a fresh Framebuffer is an incomplete Framebuffer 'GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT'" $ do
@@ -111,36 +110,35 @@ main = hspec $ around_ withGLContext $ do
     it "when one 'Texture' color attachment is incomplete the Framebuffer is also incomplete" $ do
       fb <- gen :: IO Framebuffer
       boundFramebuffer RWFramebuffer $= fb
-      
+
       tex <- gen :: IO Texture
       boundTexture GL_TEXTURE_2D GL_TEXTURE_BINDING_2D $= tex
       attach RWFramebuffer GL_COLOR_ATTACHMENT0 tex
-      
+
       checkFramebufferStatus RWFramebuffer `shouldReturn` (Just $ FramebufferError GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT)
       throwErrors
 
     it "a Framebuffer is complete with one complete 'Texture' color attachment" $ do
       fb <- gen :: IO Framebuffer
       boundFramebuffer RWFramebuffer $= fb
-      
-      tex <- gen :: IO Texture    
+
+      tex <- gen :: IO Texture
       boundTexture GL_TEXTURE_2D GL_TEXTURE_BINDING_2D $= tex
       glTexImage2D GL_TEXTURE_2D 0 GL_RGBA8 1 1 0 GL_BGRA GL_UNSIGNED_BYTE nullPtr
       attach RWFramebuffer GL_COLOR_ATTACHMENT0 tex
-      
+
       checkFramebufferStatus RWFramebuffer `shouldReturn` Nothing
       throwErrors
 
     it "a Framebuffer is complete with one complete 'Texture' color attachment ('Texture' is unbound)" $ do
       fb <- gen :: IO Framebuffer
       boundFramebuffer RWFramebuffer $= fb
-      
-      tex <- gen :: IO Texture    
+
+      tex <- gen :: IO Texture
       boundTexture GL_TEXTURE_2D GL_TEXTURE_BINDING_2D $= tex
       glTexImage2D GL_TEXTURE_2D 0 GL_RGBA8 1 1 0 GL_BGRA GL_UNSIGNED_BYTE nullPtr
       boundTexture GL_TEXTURE_2D GL_TEXTURE_BINDING_2D $= def
       attach RWFramebuffer GL_COLOR_ATTACHMENT0 tex
-      
+
       checkFramebufferStatus RWFramebuffer `shouldReturn` Nothing
       throwErrors
-

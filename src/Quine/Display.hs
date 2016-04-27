@@ -27,12 +27,10 @@ import Control.Lens
 import Data.Bits
 import Foreign.C
 import Data.StateVar
-import SDL.Raw
 import Quine.Env
 import Quine.Exception
 import Quine.Meter
 import Quine.Options
-import Quine.SDL
 import System.IO
 import Graphics.GL.Core41
 

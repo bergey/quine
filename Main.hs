@@ -56,7 +56,6 @@ import Quine.Input
 import Quine.Meter
 import Quine.Monitor
 import Quine.Options
-import Quine.SDL as SDL
 import Quine.Simulation
 import Quine.System
 import System.Exit
@@ -84,7 +83,7 @@ programUniformCamera p s = liftIO $ do
   n   <- uniformLocation p $ "viewportCameraNear[" ++ show s ++ "]"
   f   <- uniformLocation p $ "viewportCameraFar[" ++ show s ++ "]"
   liftIO $ print pro
-  return $ UniformCamera 
+  return $ UniformCamera
       (SettableStateVar (uniformMat4 pro)) -- TODO programUniformMat4
       (SettableStateVar (uniformMat4 mv))
       (programUniform1f p fov)
@@ -114,7 +113,7 @@ main = runInBoundThread $ withCString "quine" $ \windowName -> do
   ekg <- forkMonitor opts
 
   label "sdl.version" ekg >>= ($= show SDL.version)
- 
+
   -- start SDL
   init SDL_INIT_EVERYTHING >>= err
   contextMajorVersion $= 4
@@ -150,7 +149,7 @@ main = runInBoundThread $ withCString "quine" $ \windowName -> do
   label "gl.version" ekg          >>= ($= show GL.version)
   label "gl.shading.version" ekg  >>= ($= show shadingLanguageVersion)
   label "gl.shading.versions" ekg >>= ($= show shadingLanguageVersions)
-  
+
   -- glEnable gl_FRAMEBUFFER_SRGB
 
   throwErrors
@@ -158,7 +157,7 @@ main = runInBoundThread $ withCString "quine" $ \windowName -> do
   vw <- gauge "viewport.width" ekg
   vh <- gauge "viewport.height" ekg
   let sys = Env ekg opts fc vw vh
-      dsp = Display 
+      dsp = Display
         { _displayWindow            = window
         , _displayGL                = cxt
         , _displayFullScreen        = opts^.optionsFullScreen
@@ -204,20 +203,20 @@ core = do
   throwErrors
   boundVertexArray $= emptyVAO
   liftIO $ putStrLn "setting up program"
-  forever $ do 
-    
+  forever $ do
+
     (alpha,t) <- simulate $ poll $ \e -> handleDisplayEvent e >> handleInputEvent e
     uniformTime         $= t
     uniformPhysicsAlpha $= alpha
-    displayFPS <- uses displayMeter fps 
+    displayFPS <- uses displayMeter fps
     physicsFPS <- uses simulationMeter fps
     displayMeter        %= tick t
-    let title = showString "quine (display " 
+    let title = showString "quine (display "
               $ showFFloat (Just 1) displayFPS
               $ showString " fps, physics "
               $ showFFloat (Just 1) physicsFPS ")"
     use displayWindow >>= liftIO . withCString title . setWindowTitle
-    resizeDisplay 
+    resizeDisplay
     updateCamera
     render $ do
       aspectRatio <- uses displayWindowSize $ \ (w,h) -> fromIntegral w / fromIntegral h

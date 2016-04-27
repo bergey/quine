@@ -52,7 +52,6 @@ import Quine.GL.Uniform
 import Quine.GL.Block
 import Quine.GL.Shader
 import Quine.GL
-import Quine.SDL
 import Test.Hspec
 
 --------------------------------------------------------------------------------
@@ -71,8 +70,8 @@ deriving instance Eq VertexAttribute
 
 instance Storable VertexAttribute where
   sizeOf _ = 2 * sizeOf (undefined::Vec3) + sizeOf (undefined::Vec2)
-  alignment _ = alignment (undefined::Vec3) 
-  peekByteOff p o = 
+  alignment _ = alignment (undefined::Vec3)
+  peekByteOff p o =
     AnAttribute <$> peekByteOff p o
                 <*> peekByteOff p (o + sizeOf(undefined::Vec3))
                 <*> peekByteOff p (o + sizeOf(undefined::Vec3) + sizeOf(undefined::Vec3))
@@ -101,7 +100,7 @@ mkAttribute :: Vec3 -> Vec3 -> Vec2 -> VertexAttribute
 mkAttribute p n t = AnAttribute (UnAnnotated p) (UnAnnotated n) (UnAnnotated t)
 
 
-vertexSrc = BS.pack $ unlines 
+vertexSrc = BS.pack $ unlines
   [ "#version 410"
   , "in vec3 aPosition;"
   , "in vec3 aNormal;"
@@ -109,7 +108,7 @@ vertexSrc = BS.pack $ unlines
   , "void main(){aNormal;aTexture;gl_Position=vec4(aPosition, 1.0);}"
   ]
 
-fragSrc = BS.pack $ unlines 
+fragSrc = BS.pack $ unlines
   [ "#version 410"
   , "out vec4 color;"
   , "void main(){color=vec4(1.0);}"
@@ -190,7 +189,7 @@ main = withGLContext (evaluate gl_EXT_direct_state_access) >>= \dsa -> hspec $ a
         -- inital setup to define buffer type
         boundBufferAt ArrayBuffer $= buff
 
-        -- unbound default (0) buffer 
+        -- unbound default (0) buffer
         boundBufferAt ArrayBuffer $= def
 
         -- works even without bound buffer
@@ -203,10 +202,10 @@ main = withGLContext (evaluate gl_EXT_direct_state_access) >>= \dsa -> hspec $ a
 
   describe "Buffer download" $ do
     context "indirect buffer download data from buffer" $ do
-      
+
       it "is possible to retrieve the same list data from a buffer" $ do
         let xs = [1, 2, 3, 5] :: [Int]
-        
+
         buff <- gen :: IO (Buffer [Int])
         boundBufferAt ArrayBuffer $= buff
         bufferData ArrayBuffer $= (StaticDraw, xs)
@@ -217,20 +216,20 @@ main = withGLContext (evaluate gl_EXT_direct_state_access) >>= \dsa -> hspec $ a
 
       it "is possible to retrieve the same Vector data from a buffer" $ do
         let vec = V.fromList [1, 2, 3, 5] :: V.Vector Int
-        
+
         buff <- gen :: IO (Buffer (V.Vector Int))
         boundBufferAt ArrayBuffer $= buff
         bufferData ArrayBuffer $= (StaticDraw, vec)
         errors >>= (`shouldSatisfy` null)
 
         (get $ bufferData ArrayBuffer) `shouldReturn` (StaticDraw, vec)
-        errors >>= (`shouldSatisfy` null)    
+        errors >>= (`shouldSatisfy` null)
 
     when dsa $ context "direct buffer download data from buffer" $ do
-      
+
       it "is possible to retrieve the same list data from a buffer" $ do
         let xs = [1, 2, 3, 5] :: [Int]
-        
+
         buff <- gen :: IO (Buffer [Int])
         boundBufferAt ArrayBuffer $= buff
         boundBufferAt ArrayBuffer $= def
@@ -242,7 +241,7 @@ main = withGLContext (evaluate gl_EXT_direct_state_access) >>= \dsa -> hspec $ a
 
       it "is possible to retrieve the same Vector data from a buffer" $ do
         let vec = V.fromList [1, 2, 3, 5] :: V.Vector Int
-        
+
         buff <- gen :: IO (Buffer (V.Vector Int))
         boundBufferAt ArrayBuffer $= buff
         boundBufferAt ArrayBuffer $= def
@@ -266,7 +265,7 @@ main = withGLContext (evaluate gl_EXT_direct_state_access) >>= \dsa -> hspec $ a
       vertShader <- createShaderFromSource GL_VERTEX_SHADER vertexSrc
       fragShader <- createShaderFromSource GL_FRAGMENT_SHADER fragSrc
 
-  
+
       prog <- link [vertShader,fragShader]
 
       Just iPosition <- attributeLocation prog "aPosition"
@@ -275,10 +274,10 @@ main = withGLContext (evaluate gl_EXT_direct_state_access) >>= \dsa -> hspec $ a
 
       -- a vao is necessary because it "stores all of the state needed to supply vertex data" -- from the opengl wiki
       (boundVertexArray $=) =<< gen
-      
+
       (boundBufferAt ArrayBuffer $=) =<< (gen :: IO (Buffer (V.Vector VertexAttribute)))
       bufferData ArrayBuffer $= (StaticDraw, attributeInterleaved)
-      
+
       vertexAttribute iPosition $= Just attrPosition
       vertexAttribute iNormal   $= Just attrNormal
       vertexAttribute iTexture  $= Just attrTexture
@@ -291,7 +290,7 @@ main = withGLContext (evaluate gl_EXT_direct_state_access) >>= \dsa -> hspec $ a
 createShaderFromSource shaderType src = do
   s <- createShader shaderType
   shaderSource s $= src
-  compileShader s    
+  compileShader s
   compileStatus s `shouldReturn` True
   return s
 

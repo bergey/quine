@@ -56,7 +56,6 @@ import Quine.Input
 import Quine.Meter
 import Quine.Monitor
 import Quine.Options
--- import Quine.SDL as SDL
 import Quine.Simulation
 import Quine.System
 import System.Exit
