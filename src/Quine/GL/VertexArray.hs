@@ -29,7 +29,9 @@ import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
 import           GHCJS.DOM.WebGLRenderingContextBase
+import           GHCJS.DOM.Types
 import Quine.GL.Object
+import Quine.GL.Consts
 
 newtype VertexArray = VertexArray GLuint deriving (Eq,Ord,Show,Read,Typeable,Data,Generic)
 

@@ -33,6 +33,7 @@ import           GHCJS.DOM.WebGLRenderingContextBase
 import           GHCJS.DOM.Types
 import System.IO.Unsafe
 import Text.ParserCombinators.ReadP
+import Quine.GL.Consts
 
 -- |
 -- @

@@ -18,6 +18,7 @@ import Foreign.Ptr
 import           GHCJS.DOM.WebGLRenderingContextBase
 import           GHCJS.DOM.Types
 import Text.Printf
+import Quine.GL.Consts
 
 -- | This will install a synchronous debugging hook to allow OpenGL to notify us if we're doing anything deprecated, non-portable, undefined, etc.
 installDebugHook :: MonadIO m => m ()

@@ -21,8 +21,7 @@ import Data.Default
 import Prelude hiding (init)
 
 data Options = Options
-  { _optionsMonitorOptions   :: MonitorOptions
-  , _optionsFullScreen       :: !Bool
+  { _optionsFullScreen       :: !Bool
   , _optionsFullScreenNormal :: !Bool
   , _optionsHighDPI          :: !Bool
   , _optionsHighDPIRatio     :: !Float
@@ -34,11 +33,8 @@ data Options = Options
 
 makeClassy ''Options
 
-instance HasMonitorOptions Options where
-  monitorOptions = optionsMonitorOptions
-
 instance Default Options where
-  def = Options def False False False 2.0 1024 768 "shaders/generators.frag" False
+  def = Options False False False 2.0 1024 768 "shaders/generators.frag" False
 
 pointScale :: Options -> Float
 pointScale opts = if opts^.optionsHighDPI then opts^.optionsHighDPIRatio else 1

@@ -20,6 +20,7 @@ module Quine.GL.Pixel
 import Data.Bits
 import           GHCJS.DOM.WebGLRenderingContextBase
 import           GHCJS.DOM.Types
+import Quine.GL.Consts
 
 type InternalFormat = GLenum
 type PixelFormat = GLenum

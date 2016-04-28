@@ -33,6 +33,8 @@ import Foreign.ForeignPtr
 import Foreign.Marshal.Array
 import Foreign.Ptr
 import           GHCJS.DOM.WebGLRenderingContextBase
+import Quine.GL.Consts
+import Quine.GL.Pixel
 
 -- * 2D Image formats
 

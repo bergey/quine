@@ -61,9 +61,11 @@ import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
 import           GHCJS.DOM.WebGLRenderingContextBase
+import           GHCJS.DOM.Types
 import Linear
 import Linear.V
 import Quine.GL.Object
+import Quine.GL.Consts
 
 type TextureTarget = GLenum
 type TextureBinding = GLenum

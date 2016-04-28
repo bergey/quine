@@ -32,6 +32,7 @@ import Data.Data
 import GHC.Generics
 import           GHCJS.DOM.WebGLRenderingContextBase
 import           GHCJS.DOM.Types
+import Quine.GL.Consts
 
 -- | Used to represent the result of 'glGetError'
 newtype Error = Error GLenum deriving (Eq, Typeable, Data, Generic)

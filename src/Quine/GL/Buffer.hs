@@ -80,7 +80,9 @@ import Foreign.Storable
 import Data.StateVar
 import GHC.Generics
 import           GHCJS.DOM.WebGLRenderingContextBase
+import           GHCJS.DOM.Types
 import Quine.GL.Object
+import Quine.GL.Consts
 
 -- | A 'Buffer' is the generic OpenGL storage object for multiple possible kind of data
 --

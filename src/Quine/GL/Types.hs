@@ -30,6 +30,8 @@ import Data.Int
 import Data.Word
 import Linear
 import           GHCJS.DOM.WebGLRenderingContextBase
+import           GHCJS.DOM.Types (GLenum)
+import Quine.GL.Consts
 
 type BVec2 = V2 Bool
 type BVec3 = V3 Bool
