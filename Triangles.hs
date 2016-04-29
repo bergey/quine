@@ -267,7 +267,7 @@ core = do
 
 render :: (MonadIO m, MonadReader e m, HasEnv e, MonadState s m, HasDisplay s) => m () -> m ()
 render kernel = do
-  inc =<< view (env.frameCounter)
+  -- inc =<< view (env.frameCounter)
   glClearColor 0 0 0 1
   glClear $ GL_COLOR_BUFFER_BIT .|. GL_STENCIL_BUFFER_BIT .|. GL_DEPTH_BUFFER_BIT
   kernel
