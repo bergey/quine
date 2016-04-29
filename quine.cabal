@@ -102,7 +102,7 @@ library
     Quine.GL.Version
     Quine.GL.VertexArray
     Quine.Image
-    Quine.Input
+    -- Quine.Input
     Quine.Instances
     Quine.Math
     Quine.Meter

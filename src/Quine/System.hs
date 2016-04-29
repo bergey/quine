@@ -18,7 +18,7 @@ module Quine.System
 
 import Control.Lens
 import Quine.Display
-import Quine.Input
+-- import Quine.Input
 import Quine.Camera
 import Quine.Simulation
 
